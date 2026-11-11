@@ -1,0 +1,84 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Pedidos{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="mb-1">Pedidos</h2>
+            <p class="text-muted mb-0">
+                Pedidos registrados en Factusol
+            </p>
+        </div>
+
+    </div>
+
+    {% if error %}
+
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+
+    {% else %}
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>SAP</th>
+                                <th>Descripcion</th>
+                                <th>ID Familia</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for line in order.lines %}
+
+                                <tr>
+                                    <td>{{ line.product.id }}</td>
+                                    <td>{{ line.product.description|default:"-" }}</td>
+                                    <td>{{ line.product.family|default:"-" }}</td>
+                                    <td>{{ line.ordered_qty|default:"-" }}</td>
+                                    <td>${{ line.unit_price|floatformat:2|default:"-" }}</td>
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+                                    <td colspan="3"
+                                        class="text-center text-muted py-4">
+                                        No hay productos.
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

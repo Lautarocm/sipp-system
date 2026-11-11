@@ -36,5 +36,8 @@ urlpatterns = [
     ),
 
     # DASHBOARD
-    path('', include('apps.orders.urls'))
+    path('', include('apps.dashboard.urls')),
+
+    # ORDERS
+    path('orders/', include('apps.orders.urls'))
 ]

@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-
-from services.factusol_api import (FactusolAPI, FactusolAPIError)
+from .services import get_orders, get_order, get_clients
 
 # Create your views here.
 
@@ -10,23 +9,34 @@ def dashboard(request):
     return render(request, 'orders/index.html')
 
 @login_required
-def list_orders(request):
+def orders_list(request):
 
-    orders = []
-    error = None
-
-    api = FactusolAPI()
-
-    try:
-        orders = api.get_orders()
-    except FactusolAPIError as e:
-        error = str(e)
+    clients = get_clients()['clients']
+    result = get_orders(request)
 
     return render(
         request,
         "orders/index.html",
         {
-            "orders": orders,
-            "error": error
+            "search_ref": result['search_ref'],
+            "search_client_id": int(result['search_client_id']) if (result['search_client_id']) else '',
+            "search_status": result['search_status'],
+            "orders": result['orders'],
+            "clients": {c['id']: c for c in clients},
+            "error": result['error']
+        }
+    )
+
+@login_required
+def order_detail(request, series: str, number: int):
+
+    result = get_order(series, number)
+
+    return render(
+        request,
+        "orders/detail.html",
+        {
+            "order": result['order'],
+            "error": result['error']
         }
     )

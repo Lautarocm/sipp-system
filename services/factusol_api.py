@@ -44,8 +44,19 @@ class FactusolAPI:
     def get_family(self, id):
         return self._get(f"/api/families/{id}")
 
-    def get_orders(self, status=[]):
-        return self._get(f"/api/orders{'?status='+",".join([s.trim() for s in status]) if status else ''}")
+    def get_orders(
+            self,
+            ref: str | None = None,
+            client_id: int | None = None,
+            status: str | None = None
+    ):
+        params = []
+
+        params.append(f"ref={ref.strip()}") if ref else None
+        params.append(f"client_id={client_id}") if client_id else None
+        params.append(f"status={','.join([s.strip() for s in status.split(",")])}") if status else None
+
+        return self._get(f"/api/orders{'?'+"&".join(params) if params else ''}")
 
     def get_order(self, series, number):
         return self._get(f"/api/orders/{series}/{number}")
