@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid p-4">
+
+    <h2>Dashboard</h2>
+
+    <p class="text-muted">
+        Bienvenido, {{ user.username }}.
+    </p>
+
+    <div class="row g-3 mt-3">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5>Clientes</h5>
+                    <p class="text-muted">
+                        Consultar clientes de Factusol.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5>Pedidos</h5>
+                    <p class="text-muted">
+                        Consultar pedidos.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
